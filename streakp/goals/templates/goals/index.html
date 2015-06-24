@@ -1,3 +1,7 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'goals/style.css' %}" />
+
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -5,6 +9,7 @@
     <title></title>
 </head>
 <body>
+
     {%for g in goals%}
     <p>{{g}}</p>
     {%endfor%}

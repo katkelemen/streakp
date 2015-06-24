@@ -1,0 +1,1 @@
+web: gunicorn streakp.wsgi --log-file -

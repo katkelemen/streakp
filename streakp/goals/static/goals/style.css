@@ -1,0 +1,11 @@
+p {
+    color: blue;
+    font-size: 40px;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    display: inline;
+    margin-right: 60px;
+}
+
+body {
+    background: white url("images/elik.jpg") repeat right bottom;
+}
