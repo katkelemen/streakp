@@ -2,5 +2,15 @@ from django.contrib import admin
 from models import Day
 from models import Goal
 
-admin.site.register(Goal)
-admin.site.register(Day)
+class DayInline(admin.TabularInline):
+    model = Day
+    extra = 3
+
+
+class GoalAdmin(admin.ModelAdmin):
+    inlines = [DayInline]
+    list_filter = ['pub_date']
+    list_display = ('name', 'pub_date')
+
+admin.site.register(Goal, GoalAdmin)
+

@@ -19,5 +19,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-      url(r'^$', 'goals.views.index', name='index'),
+    url(r'^$', 'goals.views.index', name='index'),
+    url(r'^goal/(?P<goal_id>[0-9]+)/$', 'goals.views.goal', name='goal'),
 ]

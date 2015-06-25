@@ -2,6 +2,7 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'goals/style.css' %}" />
 
+
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -10,8 +11,8 @@
 </head>
 <body>
 
-    {%for g in goals%}
-    <a href="/goal/{{g.id}}">{{g}}</a>
+    {%for day in days%}
+    <p>{{day}}</p>
     {%endfor%}
 
 </body>
