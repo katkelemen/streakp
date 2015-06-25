@@ -10,10 +10,14 @@
     <title></title>
 </head>
 <body>
-
     {%for day in days%}
     <p>{{day}}</p>
     {%endfor%}
+
+    <form action="/goal/{{current_goal.id}}/" method="post">
+    {% csrf_token %}
+    <input type="submit" value="do today" />
+    </form>
 
 </body>
 </html>
