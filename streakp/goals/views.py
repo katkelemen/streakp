@@ -16,8 +16,8 @@ def allow_create(goal):
         return last_entry_date != timezone.now().date()
 
 def index(request):
-
-    v1 = Goal.objects.all()
+    current_user = request.user
+    v1 = Goal.objects.filter(user=current_user)
 
     context = {'goals': v1}
     return render(request, 'goals/index.html', context)

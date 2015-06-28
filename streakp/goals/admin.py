@@ -10,7 +10,7 @@ class DayInline(admin.TabularInline):
 class GoalAdmin(admin.ModelAdmin):
     inlines = [DayInline]
     list_filter = ['pub_date']
-    list_display = ('name', 'pub_date')
+    list_display = ('name', 'pub_date', 'user')
 
 admin.site.register(Goal, GoalAdmin)
 
