@@ -14,5 +14,11 @@
     <a href="/goal/{{g.id}}">{{g}} </a>
     {%endfor%}
 
+    <form action="/goal/" method="post">
+    {% csrf_token %}
+    <input type="text" name="new_goal">
+    <input type="submit" value="make goal" />
+    </form>
+
 </body>
 </html>
