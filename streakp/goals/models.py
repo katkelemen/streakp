@@ -7,6 +7,9 @@ class Goal(models.Model):
     name = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
 
+    class Meta:
+        unique_together = ('user', 'name')
+
     def __str__(self):
         return self.name
 

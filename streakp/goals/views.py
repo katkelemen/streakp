@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import timezone
@@ -44,9 +45,13 @@ def new_goal(request):
     if request.method=='POST':
         new_goal = request.POST['new_goal']
         goal = Goal(user=current_user, name=new_goal, pub_date=timezone.now())
-        goal.save()
+        try:
+            goal.save()
+            message = 'Nice job!'
+        except IntegrityError:
+            message = 'You already created this goal'
         current_goals = Goal.objects.filter(user=current_user)
-        context = {'goals': current_goals}
+        context = {'goals': current_goals, 'message': message}
         return render(request, 'goals/index.html', context)
 
 
