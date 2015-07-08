@@ -82,3 +82,9 @@ def logout_view(request):
     return HttpResponseRedirect("/login/")
     # Redirect to a success page.
 
+
+@login_required
+def delete_goal(request, goal_id):
+    current_goal = request.user.goal_set.get(id=goal_id)
+    current_goal.delete()
+    return HttpResponseRedirect("/")
