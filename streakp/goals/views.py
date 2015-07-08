@@ -4,7 +4,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import timezone
 from datetime import datetime
 from .models import Goal, Day
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 
 def same_date(date1):
@@ -20,6 +21,7 @@ def allow_create(goal):
         return last_entry_date != timezone.now().date()
 
 
+@login_required
 def index(request):
     current_user = request.user
     current_goals = Goal.objects.filter(user=current_user)
@@ -27,7 +29,7 @@ def index(request):
     context = {'goals': current_goals}
     return render(request, 'goals/index.html', context)
 
-
+@login_required
 def goal(request, goal_id):
     current_goal = Goal.objects.get(id=goal_id)
     days = current_goal.day_set.all()
@@ -39,6 +41,7 @@ def goal(request, goal_id):
     else:
         return render(request, 'goals/goal.html', context)
 
+@login_required
 def new_goal(request):
     current_user = request.user
 
@@ -55,7 +58,7 @@ def new_goal(request):
         return render(request, 'goals/index.html', context)
 
 
-def loginview(request):
+def login_view(request):
     if request.method=='POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -66,9 +69,16 @@ def loginview(request):
                 return HttpResponseRedirect("/")
             else:
                 # Return a 'disabled account' error message
-                HttpResponse('Disabled account')
+                return HttpResponse('Disabled account')
         else:
             # Return an 'invalid login' error message.
-            HttpResponse('invalid login')
+            return HttpResponse('invalid login')
     else:
         return render(request, 'goals/login.html')
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect("/login/")
+    # Redirect to a success page.
+

@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'goals.views.index', name='index'),
     url(r'^goal/(?P<goal_id>[0-9]+)/$', 'goals.views.goal', name='goal'),
-    url(r'^login/$', 'goals.views.loginview', name='login'),
+    url(r'^login/$', 'goals.views.login_view', name='login'),
+    url(r'^logout/$', 'goals.views.logout_view', name='logout'),
     url(r'^goal/$', 'goals.views.new_goal', name='new_goal')
 ]
