@@ -1,32 +1,37 @@
+{% extends 'goals/base.html' %}
+
 {% load staticfiles %}
-
-<link rel="stylesheet" type="text/css" href="{% static 'goals/style.css' %}" />
-
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-
-    {%for g in goals%}
-    <a href="/goal/{{g.id}}">{{g}} </a>
-    {%endfor%}
-
-    <form action="/goal/" method="post">
-    {% csrf_token %}
-    <input type="text" name="new_goal">
-    <input type="submit" value="make goal" />
-    </form>
-
-    <p>{{message}}</p>
-    <p>Hello, {{user.username}}</p>
-
-    <a href="/logout/">
-        <button>Log out</button>
-    </a>
+{% block css %}
+        <link rel="stylesheet" type="text/css" href="{% static 'goals/probe.css' %}" />
+{% endblock %}
 
 
-</body>
-</html>
+{% block content %}
+
+<div class="container">
+
+    <div class="starter-template">
+            {%for g in goals%}
+        <a class='btn btn-sm btn-success' href="/goal/{{g.id}}">{{g}} </a>
+            {%endfor%}
+
+        <form action="/goal/" method="post">
+        {% csrf_token %}
+        <input type="text" name="new_goal">
+        <input type="submit" value="make goal" />
+        </form>
+
+        <p>{{message}}</p>
+        <p>Hello, {{user.username}}</p>
+
+        <a href="/logout/">
+            <button>Log out</button>
+        </a>
+
+
+    </div>
+
+
+</div>
+
+{% endblock %}

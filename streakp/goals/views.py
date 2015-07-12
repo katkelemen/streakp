@@ -6,6 +6,7 @@ from datetime import datetime
 from .models import Goal, Day
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from . import streak
 
 
 def same_date(date1):
@@ -33,7 +34,10 @@ def index(request):
 def goal(request, goal_id):
     current_goal = Goal.objects.get(id=goal_id)
     days = current_goal.day_set.all()
-    context = {'days': days, 'current_goal':current_goal}
+    dates = [d.date for d in days]
+    lenstreak = streak.cons_dates(dates)
+    ls = range(lenstreak)
+    context = {'days': days, 'current_goal':current_goal, 'lenstreak':lenstreak, 'ls':ls}
     if request.method=='POST' and allow_create(current_goal):
         d = Day(goal=current_goal, date=timezone.now())
         d.save()
@@ -88,3 +92,12 @@ def delete_goal(request, goal_id):
     current_goal = request.user.goal_set.get(id=goal_id)
     current_goal.delete()
     return HttpResponseRedirect("/")
+
+def probe_view(request):
+    return render(request, 'goals/probe.html')
+
+def about_view(request):
+    return render(request, 'goals/about.html')
+
+def contact_view(request):
+    return render(request, 'goals/contact.html')

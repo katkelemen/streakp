@@ -1,29 +1,51 @@
+
+
+{% extends 'goals/base.html' %}
+
 {% load staticfiles %}
+{% block css %}
+        <link rel="stylesheet" type="text/css" href="{% static 'goals/probe.css' %}" />
+{% endblock %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'goals/style.css' %}" />
+
+{% block content %}
+
+<div class="container">
+
+    <div class="starter-template">
+
+        {%for day in days%}
+        <p>{{day}}</p>
+        {%endfor%}
 
 
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-    {%for day in days%}
-    <p>{{day}}</p>
-    {%endfor%}
+        {%for one in ls%}
+    <div class="blocks"></div>
+        {%endfor%}
 
-    <form action="/goal/{{current_goal.id}}/" method="post">
-    {% csrf_token %}
-    <input type="submit" value="do today" />
-    </form>
 
-    <a href="/delete_goal/{{current_goal.id}}">
-        <button onclick="return confirm('Are you sure?')">
-            Remove goal
-        </button>
-    </a>
+    <div class="current_streak">
+        <p>Your current streak: {{lenstreak}}</p>
+    </div>
 
-</body>
-</html>
+    <div class="do_button">
+        <form action="/goal/{{current_goal.id}}/" method="post">
+        {% csrf_token %}
+        <input type="submit" value="do today" />
+        </form>
+    </div>
+
+    <div class="delete_button">
+        <a href="/delete_goal/{{current_goal.id}}">
+            <button onclick="return confirm('Are you sure?')">
+                Remove goal
+            </button>
+        </a>
+    </div>
+
+    </div>
+
+
+</div>
+
+{% endblock %}

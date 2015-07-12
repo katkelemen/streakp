@@ -25,4 +25,7 @@ urlpatterns = [
     url(r'^logout/$', 'goals.views.logout_view', name='logout'),
     url(r'^goal/$', 'goals.views.new_goal', name='new_goal'),
     url(r'^delete_goal/(?P<goal_id>[0-9]+)/$', 'goals.views.delete_goal', name='delete_goal'),
+    url(r'^probe/$', 'goals.views.probe_view', name='probe'),
+    url(r'^about/$', 'goals.views.about_view', name='about'),
+    url(r'^contact/$', 'goals.views.contact_view', name='contact'),
 ]
