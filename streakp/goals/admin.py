@@ -1,5 +1,5 @@
 from django.contrib import admin
-from goals.models import Day
+from models import Day
 from models import Goal
 
 class DayInline(admin.TabularInline):
