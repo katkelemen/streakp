@@ -33,17 +33,17 @@ def index(request):
 @login_required
 def goal(request, goal_id):
     current_goal = Goal.objects.get(id=goal_id)
+    if request.method=='POST' and allow_create(current_goal):
+        d = Day(goal=current_goal, date=timezone.now())
+        d.save()
+    allowed = allow_create(current_goal)
+    current_user = request.user
     days = current_goal.day_set.all()
     dates = [d.date for d in days]
     lenstreak = streak.cons_dates(dates)
     ls = range(lenstreak)
-    context = {'days': days, 'current_goal':current_goal, 'lenstreak':lenstreak, 'ls':ls}
-    if request.method=='POST' and allow_create(current_goal):
-        d = Day(goal=current_goal, date=timezone.now())
-        d.save()
-        return render(request, 'goals/goal.html', context)
-    else:
-        return render(request, 'goals/goal.html', context)
+    context = {'days': days, 'current_goal':current_goal, 'lenstreak':lenstreak, 'ls':ls, 'allowed':allowed, 'current_user':current_user}
+    return render(request, 'goals/goal.html', context)
 
 @login_required
 def new_goal(request):

@@ -12,6 +12,9 @@
 
 <div class="container">
 
+    <div>{{user}}</div>
+    <div>{{current_goal}}</div>
+
     <div class="starter-template">
 
         {%for day in days%}
@@ -28,12 +31,15 @@
         <p>Your current streak: {{lenstreak}}</p>
     </div>
 
+
+    {% if allowed %}
     <div class="do_button">
         <form action="/goal/{{current_goal.id}}/" method="post">
         {% csrf_token %}
         <input type="submit" value="do today" />
         </form>
     </div>
+    {% endif %}
 
     <div class="delete_button">
         <a href="/delete_goal/{{current_goal.id}}">
