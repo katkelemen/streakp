@@ -10,15 +10,6 @@ body {
     background: white url("images/orange.png") repeat right bottom;
 }
 
-div.blocks {
-    background: black;
-    display: inline-block;
-    float: left;
-    height: 30px;
-    width: 30px;
-    margin: 3px;
-}
-
 div.current_streak {
     display: block;
 }

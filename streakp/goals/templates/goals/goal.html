@@ -12,20 +12,15 @@
 
 <div class="container">
 
-    <div>{{user}}</div>
-    <div>{{current_goal}}</div>
+
 
     <div class="starter-template">
 
-        {%for day in days%}
+        <h3><span class="label label-info">{{current_goal}}</span></h3>
+
+        {%for day in streakdays%}
         <p>{{day}}</p>
         {%endfor%}
-
-
-        {%for one in ls%}
-    <div class="blocks"></div>
-        {%endfor%}
-
 
     <div class="current_streak">
         <p>Your current streak: {{lenstreak}}</p>
