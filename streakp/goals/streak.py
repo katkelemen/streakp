@@ -18,4 +18,5 @@ def dates_to_ints(datelist):
 
 def cons_dates(datelist):
     values = dates_to_ints(datelist)
+    values = sorted(values)
     return get_streak(values)

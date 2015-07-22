@@ -41,8 +41,9 @@ def goal(request, goal_id):
     days = current_goal.day_set.all()
     dates = [d.date for d in days]
     lenstreak = streak.cons_dates(dates)
+    streakdays = list(current_goal.day_set.all())[-lenstreak:]
     ls = range(lenstreak)
-    context = {'days': days, 'current_goal':current_goal, 'lenstreak':lenstreak, 'ls':ls, 'allowed':allowed, 'current_user':current_user}
+    context = {'streakdays':streakdays, 'days':days, 'current_goal':current_goal, 'lenstreak':lenstreak, 'ls':ls, 'allowed':allowed, 'current_user':current_user}
     return render(request, 'goals/goal.html', context)
 
 @login_required
