@@ -27,7 +27,7 @@
     </div>
 
 
-    {% if allowed %}
+    {% if not is_done_today %}
     <div class="do_button">
         <form action="/goal/{{current_goal.id}}/" method="post">
         {% csrf_token %}

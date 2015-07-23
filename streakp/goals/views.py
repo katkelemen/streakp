@@ -26,7 +26,6 @@ def allow_create(goal):
 def index(request):
     current_user = request.user
     current_goals = Goal.objects.filter(user=current_user)
-
     context = {'goals': current_goals}
     return render(request, 'goals/index.html', context)
 
@@ -36,7 +35,7 @@ def goal(request, goal_id):
     if request.method=='POST' and allow_create(current_goal):
         d = Day(goal=current_goal, date=timezone.now())
         d.save()
-    allowed = allow_create(current_goal)
+    allowed = current_goal.is_done_today()
     current_user = request.user
     days = current_goal.day_set.all()
     dates = [d.date for d in days]

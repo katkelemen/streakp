@@ -12,7 +12,11 @@
 
     <div class="starter-template">
             {%for g in goals%}
-        <a class='btn btn-sm btn-success' href="/goal/{{g.id}}">{{g}} </a>
+                {% if g.is_done_today %}
+                    <a class='btn btn-sm btn-success' href="/goal/{{g.id}}">{{g}} ({{g.lenstreak}})</a>
+                {% else %}
+                    <a class='btn btn-sm btn-default' href="/goal/{{g.id}}">{{g}} ({{g.lenstreak}})</a>
+                {% endif %}
             {%endfor%}
 
         <form action="/goal/" method="post">
