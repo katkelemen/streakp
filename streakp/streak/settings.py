@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'goals',
+    'accounts',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -105,3 +106,6 @@ STATIC_URL = '/static/'
 LOGIN_URL = '/login/'
 
 STATIC_ROOT = 'collectedstatic'
+
+AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+
