@@ -6,9 +6,6 @@ body {
   text-align: center;
 }
 
-
-
-
 /* For grid */
 
 h4 {
@@ -42,4 +39,8 @@ div.blocks {
     height: 30px;
     width: 30px;
     margin: 3px;
+}
+
+div.new_goal_form {
+    margin: 50px;
 }
