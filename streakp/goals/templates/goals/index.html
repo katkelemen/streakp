@@ -19,20 +19,13 @@
                 {% endif %}
             {%endfor%}
 
-        <form action="/goal/" method="post">
+        <div class="new_goal_form">
+            <form action="/goal/" method="post">
         {% csrf_token %}
-        <input type="text" name="new_goal">
-        <input type="submit" value="make goal" />
-        </form>
-
-        <p>{{message}}</p>
-        <p>Hello, {{user.username}}</p>
-
-        <a href="/logout/">
-            <button>Log out</button>
-        </a>
-
-
+                <input type="text" name="new_goal">
+                <input type="submit" value="make goal" />
+            </form>
+        </div>
     </div>
 
 
