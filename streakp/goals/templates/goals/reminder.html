@@ -1,0 +1,11 @@
+
+<body>
+
+    <h2>Don't forget to do your goals today! </h2>
+
+
+    {% for goal in goals %}
+        <p><a href="http://katkelemen.pythonanywhere.com/goal/{{goal.id}}/">{{goal}}</a></p>
+    {% endfor %}
+
+</body>
