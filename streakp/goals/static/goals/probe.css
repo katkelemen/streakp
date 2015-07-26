@@ -44,3 +44,12 @@ div.blocks {
 div.new_goal_form {
     margin: 50px;
 }
+
+.delete_button {
+    text-align: right;
+
+}
+
+.goal_settings {
+    margin-top: 50px;
+}

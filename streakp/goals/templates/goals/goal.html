@@ -22,30 +22,41 @@
         <p>{{day}}</p>
         {%endfor%}
 
-    <div class="current_streak">
-        <p>Your current streak: {{lenstreak}}</p>
-    </div>
+        <div class="current_streak">
+            <p>Your current streak: {{lenstreak}}</p>
+        </div>
+
+        {% if not current_goal.is_done_today %}
+        <div class="do_button">
+            <form action="/goal/{{current_goal.id}}/" method="post">
+            {% csrf_token %}
+            <input type="submit" value="do today" />
+            </form>
+        </div>
+        {% endif %}
 
 
-    {% if not current_goal.is_done_today %}
-    <div class="do_button">
-        <form action="/goal/{{current_goal.id}}/" method="post">
-        {% csrf_token %}
-        <input type="submit" value="do today" />
-        </form>
+        <div class="goal_settings">
+
+             <form action="/update_goal/{{current_goal.id}}/" method="post">
+                 {% csrf_token %}
+                 <input type="checkbox" name="reminder" value="Reminder" {%if current_goal.allow_reminders%}checked {%endif%}>
+                 <input type="submit" value="Save" />
+             </form>
+
+
+
+        </div>
+
     </div>
-    {% endif %}
 
     <div class="delete_button">
-        <a href="/delete_goal/{{current_goal.id}}">
-            <button onclick="return confirm('Are you sure?')">
-                Remove goal
-            </button>
-        </a>
+            <a href="/delete_goal/{{current_goal.id}}/">
+                <button onclick="return confirm('Are you sure?')">
+                    Remove goal
+                </button>
+            </a>
     </div>
-
-    </div>
-
 
 </div>
 

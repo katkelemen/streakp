@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'goals',
     'accounts',
+    'djrill',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -109,3 +110,8 @@ STATIC_ROOT = 'collectedstatic'
 
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
+
+EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
+DEFAULT_FROM_EMAIL = "you@example.com"
+
+from local_settings import *

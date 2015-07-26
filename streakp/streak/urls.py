@@ -28,4 +28,6 @@ urlpatterns = [
     url(r'^probe/$', 'goals.views.probe_view', name='probe'),
     url(r'^about/$', 'goals.views.about_view', name='about'),
     url(r'^contact/$', 'goals.views.contact_view', name='contact'),
+    url(r'^update_goal/(?P<goal_id>[0-9]+)/$', 'goals.views.update_goal', name='update_goal'),
+    url(r'^mail/$', 'goals.views.mail_view', name='mail_view'),
 ]

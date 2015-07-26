@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
@@ -7,19 +8,18 @@ from .models import Goal, Day
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from . import streak
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
 
 
 def same_date(date1):
     return date1 == datetime.today().date()
 
+def incompleted_goals(user):
+    user_goals = user.goal_set.all()
+    return [goal for goal in user_goals if not goal.is_done_today()]
 
-def allow_create(goal):
-    days = goal.day_set.all()
-    if not days: return True
-    else:
-        last_entry = days.latest('id').date
-        last_entry_date = last_entry.date()
-        return last_entry_date != timezone.now().date()
 
 
 @login_required
@@ -32,10 +32,10 @@ def index(request):
 @login_required
 def goal(request, goal_id):
     current_goal = Goal.objects.get(id=goal_id)
-    if request.method=='POST' and allow_create(current_goal):
+    if request.method=='POST' and not current_goal.is_done_today():
         d = Day(goal=current_goal, date=timezone.now())
         d.save()
-    allowed = current_goal.is_done_today()
+    allowed = not current_goal.is_done_today()
     current_user = request.user
     days = current_goal.day_set.all()
     dates = [d.date for d in days]
@@ -93,11 +93,40 @@ def delete_goal(request, goal_id):
     current_goal.delete()
     return HttpResponseRedirect("/")
 
+@login_required
 def probe_view(request):
     return render(request, 'goals/probe.html')
 
+@login_required
 def about_view(request):
     return render(request, 'goals/about.html')
 
+@login_required
 def contact_view(request):
     return render(request, 'goals/contact.html')
+
+@login_required
+def update_goal(request, goal_id):
+    current_goal = request.user.goal_set.get(id=goal_id)
+    current_goal.allow_reminders = 'reminder' in request.POST
+    current_goal.save()
+    return HttpResponseRedirect("/")
+
+@login_required
+def mail_view(request):
+    users = User.objects.all()
+    for user in users:
+        goals = incompleted_goals(user)
+        if goals:
+            rendered = render_to_string('goals/reminder.html', {'goals': goals})
+            msg = EmailMultiAlternatives(
+                subject="StreakP reminder",
+                body=rendered,
+                from_email="streakp@mono.ninja",
+                to=[user.email],
+            )
+            msg.attach_alternative(rendered, "text/html")
+            msg.send()
+            print 'sending mail to '+ user.email
+    return HttpResponse('OK')
+
