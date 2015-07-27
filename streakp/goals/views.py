@@ -16,11 +16,9 @@ from django.core.mail import EmailMultiAlternatives
 def same_date(date1):
     return date1 == datetime.today().date()
 
-def incompleted_goals(user):
-    user_goals = user.goal_set.all()
+def incompleted_goals_with_reminder(user):
+    user_goals = user.goal_set.filter(allow_reminders = True)
     return [goal for goal in user_goals if not goal.is_done_today()]
-
-
 
 @login_required
 def index(request):
@@ -116,7 +114,7 @@ def update_goal(request, goal_id):
 def mail_view(request):
     users = User.objects.all()
     for user in users:
-        goals = incompleted_goals(user)
+        goals = incompleted_goals_with_reminder(user)
         if goals:
             rendered = render_to_string('goals/reminder.html', {'goals': goals})
             msg = EmailMultiAlternatives(
