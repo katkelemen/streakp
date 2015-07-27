@@ -117,7 +117,7 @@ def mail_view(request):
     users = User.objects.all()
     for user in users:
         goals = incompleted_goals_with_reminder(user)
-        if goals:
+        if goals and user.email:
             rendered = render_to_string('goals/reminder.html', {'goals': goals})
             msg = EmailMultiAlternatives(
                 subject="StreakP reminder",
