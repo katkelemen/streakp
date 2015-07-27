@@ -107,6 +107,8 @@ def contact_view(request):
 def update_goal(request, goal_id):
     current_goal = request.user.goal_set.get(id=goal_id)
     current_goal.allow_reminders = 'reminder' in request.POST
+    if request.POST['rename'] != '':
+        current_goal.name = request.POST['rename']
     current_goal.save()
     return HttpResponseRedirect("/")
 

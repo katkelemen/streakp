@@ -45,9 +45,9 @@ div.new_goal_form {
     margin: 50px;
 }
 
-.delete_button {
-    text-align: right;
-
+.btn-group {
+    margin-top: 10px;
+    margin-bottom: 30px;
 }
 
 .goal_settings {
