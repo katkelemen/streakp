@@ -29,19 +29,23 @@ def index(request):
 
 @login_required
 def goal(request, goal_id):
-    current_goal = Goal.objects.get(id=goal_id)
-    if request.method=='POST' and not current_goal.is_done_today():
-        d = Day(goal=current_goal, date=timezone.now())
-        d.save()
-    allowed = not current_goal.is_done_today()
     current_user = request.user
-    days = current_goal.day_set.all()
-    dates = [d.date for d in days]
-    lenstreak = streak.cons_dates(dates)
-    streakdays = list(current_goal.day_set.all())[-lenstreak:]
-    ls = range(lenstreak)
-    context = {'streakdays':streakdays, 'days':days, 'current_goal':current_goal, 'lenstreak':lenstreak, 'ls':ls, 'allowed':allowed, 'current_user':current_user}
-    return render(request, 'goals/goal.html', context)
+    current_goal = Goal.objects.get(id=goal_id)
+    if current_goal in Goal.objects.filter(user=current_user):
+        if request.method=='POST' and not current_goal.is_done_today():
+            d = Day(goal=current_goal, date=timezone.now())
+            d.save()
+        allowed = not current_goal.is_done_today()
+        current_user = request.user
+        days = current_goal.day_set.all()
+        dates = [d.date for d in days]
+        lenstreak = streak.cons_dates(dates)
+        streakdays = list(current_goal.day_set.all())[-lenstreak:]
+        ls = range(lenstreak)
+        context = {'streakdays':streakdays, 'days':days, 'current_goal':current_goal, 'lenstreak':lenstreak, 'ls':ls, 'allowed':allowed, 'current_user':current_user}
+        return render(request, 'goals/goal.html', context)
+    else:
+        return HttpResponse('You dont have this goal')
 
 @login_required
 def new_goal(request):
