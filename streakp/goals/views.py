@@ -11,6 +11,8 @@ from . import streak
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
+from django.shortcuts import get_object_or_404
+
 
 
 def same_date(date1):
@@ -30,7 +32,7 @@ def index(request):
 @login_required
 def goal(request, goal_id):
     current_user = request.user
-    current_goal = Goal.objects.get(id=goal_id)
+    current_goal = get_object_or_404(Goal, pk=goal_id)
     if current_goal in Goal.objects.filter(user=current_user):
         if request.method=='POST' and not current_goal.is_done_today():
             d = Day(goal=current_goal, date=timezone.now())
