@@ -55,8 +55,8 @@ def new_goal(request):
         try:
             goal.save()
             message = 'Nice job!'
-        except IntegrityError:
-            message = 'You already created this goal'
+        except IntegrityError, e:
+            message = e.message
         current_goals = Goal.objects.filter(user=current_user)
         context = {'goals': current_goals, 'message': message}
         return render(request, 'goals/index.html', context)

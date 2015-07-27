@@ -8,7 +8,7 @@ class Goal(models.Model):
     user = models.ForeignKey(User)
     name = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
-    allow_reminders = models.BooleanField()
+    allow_reminders = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('user', 'name')

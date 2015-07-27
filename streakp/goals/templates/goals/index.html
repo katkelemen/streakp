@@ -19,6 +19,8 @@
                 {% endif %}
             {%endfor%}
 
+        {{message}}
+
         <div class="new_goal_form">
             <form action="/goal/" method="post">
         {% csrf_token %}
