@@ -50,16 +50,16 @@
 
 
         <div class="goal_settings">
-
              <form action="/update_goal/{{current_goal.id}}/" method="post">
                  {% csrf_token %}
                  <input type="text" name="rename" placeholder ="rename your goal">
                  <input type="checkbox" name="reminder" value="Reminder" {%if current_goal.allow_reminders%}checked {%endif%}>
                  <input type="submit" value="Save" />
              </form>
+        </div>
 
-
-
+        <div class="longest_streak">
+            <p>Longest streak so far: {{longest_streak}}</p>
         </div>
 
     </div>

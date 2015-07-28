@@ -44,7 +44,8 @@ def goal(request, goal_id):
         lenstreak = streak.cons_dates(dates)
         streakdays = list(current_goal.day_set.all())[-lenstreak:]
         ls = range(lenstreak)
-        context = {'streakdays':streakdays, 'days':days, 'current_goal':current_goal, 'lenstreak':lenstreak, 'ls':ls, 'allowed':allowed, 'current_user':current_user}
+        longest_streak = streak.longest_streak(dates)
+        context = {'dates': dates, 'longest_streak':longest_streak, 'streakdays':streakdays, 'days':days, 'current_goal':current_goal, 'lenstreak':lenstreak, 'ls':ls, 'allowed':allowed, 'current_user':current_user}
         return render(request, 'goals/goal.html', context)
     else:
         return HttpResponse('You dont have this goal')

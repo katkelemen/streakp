@@ -20,3 +20,17 @@ def cons_dates(datelist):
     values = dates_to_ints(datelist)
     values = sorted(values)
     return get_streak(values)
+
+
+def longest_streak(datelist):
+    longest = 1
+    ls = [0]
+    values = dates_to_ints(datelist)
+    values = sorted(values)
+    for i in range(len(values)-1):
+        if values[i]+1 == values[i+1]:
+            longest += 1
+        else:
+            ls.append(longest)
+            longest = 1
+    return max(ls)
