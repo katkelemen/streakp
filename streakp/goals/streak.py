@@ -25,12 +25,12 @@ def cons_dates(datelist):
 def longest_streak(datelist):
     longest = 1
     ls = [0]
-    values = dates_to_ints(datelist)
-    values = sorted(values)
+    values = sorted(dates_to_ints(datelist))
     for i in range(len(values)-1):
         if values[i]+1 == values[i+1]:
             longest += 1
         else:
             ls.append(longest)
             longest = 1
+    ls.append(longest)
     return max(ls)
