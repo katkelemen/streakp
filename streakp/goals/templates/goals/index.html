@@ -30,6 +30,13 @@
         </div>
     </div>
 
+    <div class="top_streaks">
+        <h4>Top Streaks</h4>
+        {% for g in all_goals %}
+            <p>{{g}} ({{g.lenstreak}})</p>
+        {% endfor %}
+
+    </div>
 
 </div>
 
