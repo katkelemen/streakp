@@ -26,8 +26,8 @@ def incompleted_goals_with_reminder(user):
 def index(request):
     current_user = request.user
     current_goals = Goal.objects.filter(user=current_user)
-    all_goals = Goal.objects.all()
-    context = {'goals': current_goals, 'all_goals': all_goals}
+    all_goals_sorted = sorted(Goal.objects.all(), key=Goal.lenstreak, reverse=True)
+    context = {'goals': current_goals, 'all_goals': all_goals_sorted}
     return render(request, 'goals/index.html', context)
 
 @login_required

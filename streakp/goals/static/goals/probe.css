@@ -1,16 +1,9 @@
 body {
   padding-top: 50px;
 }
-.starter-template {
-  padding: 40px 15px;
-  text-align: center;
-}
 
 /* For grid */
 
-h4 {
-  margin-top: 25px;
-}
 .row {
   margin-bottom: 20px;
 }
@@ -19,13 +12,23 @@ h4 {
   margin-bottom: 0;
 }
 [class*="col-"] {
-  margin-top: 15px;
-  padding-top: 20px;
+  margin-top: 60px;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-top: 10px;
   padding-bottom: 15px;
   background-color: #eee;
   background-color: rgba(86,61,124,.15);
   border: 1px solid #ddd;
   border: 1px solid rgba(86,61,124,.2);
+}
+
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+  background-color: #33ff66;
+  background-color: rgba(51,255,102,.15);
+  margin-right: 60px;
 }
 
 hr {
