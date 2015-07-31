@@ -9,35 +9,41 @@
 {% block content %}
 
 <div class="container">
+    <div class="row">
 
-    <div class="starter-template">
-            {%for g in goals%}
-                {% if g.is_done_today %}
-                    <a class='btn btn-sm btn-success' href="/goal/{{g.id}}">{{g}} ({{g.lenstreak}})</a>
-                {% else %}
-                    <a class='btn btn-sm btn-default' href="/goal/{{g.id}}">{{g}} ({{g.lenstreak}})</a>
-                {% endif %}
-            {%endfor%}
+        <div class="col-sm-8 starter-template">
+                {%for g in goals%}
+                    {% if g.is_done_today %}
+                        <a class='btn btn-sm btn-success' href="/goal/{{g.id}}">{{g}} ({{g.lenstreak}})</a>
+                    {% else %}
+                        <a class='btn btn-sm btn-default' href="/goal/{{g.id}}">{{g}} ({{g.lenstreak}})</a>
+                    {% endif %}
+                {%endfor%}
 
-        {{message}}
+            {{message}}
 
-        <div class="new_goal_form">
-            <form action="/goal/" method="post">
-        {% csrf_token %}
-                <input type="text" name="new_goal">
-                <input type="submit" value="make goal" />
-            </form>
+
+
+            <div class="new_goal_form">
+                <form action="/goal/" method="post">
+            {% csrf_token %}
+                    <input type="text" name="new_goal">
+                    <input type="submit" value="make goal" />
+                </form>
+            </div>
         </div>
+
+        <div class="col-sm-3 col-sm-offset-1">
+            <div class="sidebar-module top_streaks">
+                <h4>Top Streaks</h4>
+                {% for g in all_goals %}
+                    <p>{{g}} ({{g.lenstreak}})</p>
+                {% endfor %}
+
+            </div>
+        </div>
+
     </div>
-
-    <div class="top_streaks">
-        <h4>Top Streaks</h4>
-        {% for g in all_goals %}
-            <p>{{g}} ({{g.lenstreak}})</p>
-        {% endfor %}
-
-    </div>
-
 </div>
 
 {% endblock %}

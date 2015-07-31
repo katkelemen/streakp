@@ -100,10 +100,6 @@ def delete_goal(request, goal_id):
     return HttpResponseRedirect("/")
 
 @login_required
-def probe_view(request):
-    return render(request, 'goals/probe.html')
-
-@login_required
 def about_view(request):
     return render(request, 'goals/about.html')
 
