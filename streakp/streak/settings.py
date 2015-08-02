@@ -112,8 +112,10 @@ AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 
 EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
-DEFAULT_FROM_EMAIL = "you@example.com"
+DEFAULT_FROM_EMAIL = "streakp@mono.ninja"
 
 ACCOUNT_ACTIVATION_DAYS = 7
+
+REGISTRATION_AUTO_LOGIN = True
 
 from local_settings import *
