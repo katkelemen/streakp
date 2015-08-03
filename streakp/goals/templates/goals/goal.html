@@ -8,7 +8,13 @@
 
 <div class="container">
 
-
+    <div class="description">
+            <p id="goal-description">
+                {{current_goal.description}}
+            </p>
+        <input id="new-description" type="text"/>
+        <button onclick="update_description()">ok</button>
+    </div>
 
     <div class="starter-template">
 
@@ -43,7 +49,6 @@
             </form>
         </div>
         {% endif %}
-
 
         <div class="goal_settings">
              <form action="/update_goal/{{current_goal.id}}/" method="post">

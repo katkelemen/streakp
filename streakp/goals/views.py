@@ -108,6 +108,14 @@ def contact_view(request):
     return render(request, 'goals/contact.html')
 
 @login_required
+def update_goal_ajax(request, goal_id):
+    current_goal = request.user.goal_set.get(id=goal_id)
+    current_goal.description = request.POST['description']
+    current_goal.save()
+    return HttpResponse(current_goal.description)
+
+
+@login_required
 def update_goal(request, goal_id):
     current_goal = request.user.goal_set.get(id=goal_id)
     current_goal.allow_reminders = 'reminder' in request.POST
