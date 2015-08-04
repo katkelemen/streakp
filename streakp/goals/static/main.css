@@ -63,5 +63,14 @@ div.new_goal_form {
 }
 
 .content {
-    margin-top:100px;
+    margin-top: 100px;
+}
+
+
+.remove-btn {
+    float: right;
+}
+
+.cog-glyph {
+    float: right;
 }

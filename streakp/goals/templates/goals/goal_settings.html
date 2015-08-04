@@ -1,0 +1,50 @@
+
+
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-sm-5 col-sm-offset-4 goal_settings">
+
+
+
+            <form action="/update_goal/{{current_goal.id}}/" method="post">
+            {% csrf_token %}
+
+                <h2>{{current_goal}}</h2>
+                <div class="form-group rename">
+                     <label>Rename your goal</label>
+                     <input type="text" class="form-control" name="rename" placeholder="Do I need a new name?">
+                </div>
+
+                <div class="form-group description">
+                    <label>Description</label>
+                    <input type="text" class="form-control" id="new-description" name="description" placeholder="My goal is beautiful...">
+                </div>
+
+                <div class="checkbox reminder">
+                    <label>
+                        <input type="checkbox" {%if current_goal.allow_reminders%}checked {%endif%}> Daily reminder
+                    </label>
+                </div>
+
+                <button class="btn btn-default" type="submit">Save</button>
+
+                <a class="btn btn-default remove-btn" href="/delete_goal/{{current_goal.id}}/" role="button" onclick="return confirm('Are you sure?')">
+                    Remove goal</a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

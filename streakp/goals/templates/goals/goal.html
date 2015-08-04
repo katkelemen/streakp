@@ -8,63 +8,40 @@
 
 <div class="container">
 
-    <div class="description">
-            <p id="goal-description">
-                {{current_goal.description}}
-            </p>
-        <input id="new-description" type="text"/>
-        <button onclick="update_description()">ok</button>
-    </div>
+    <div class="row">
 
-    <div class="starter-template">
+        <div class="starter-template">
 
-        <div class="btn-group">
-        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{current_goal}} <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-            <li>
-                <a href="/delete_goal/{{current_goal.id}}/" onclick="return confirm('Are you sure?')">
-                        Remove goal
-                </a>
-            </li>
+            <a class="btn btn-default cog-glyph" href="/goal_settings/{{current_goal.id}}/" role="button">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            </a>
 
-        </ul>
-        </div>
+            <h2>{{current_goal}}</h2>
 
+            {%for day in streakdays%}
+            <p>{{day}}</p>
+            {%endfor%}
 
-        {%for day in streakdays%}
-        <p>{{day}}</p>
-        {%endfor%}
+            <div class="current_streak">
+                <p>Your current streak: {{lenstreak}}</p>
+            </div>
 
-        <div class="current_streak">
-            <p>Your current streak: {{lenstreak}}</p>
-        </div>
+            {% if not current_goal.is_done_today %}
+            <div class="do_button">
+                <form action="/goal/{{current_goal.id}}/" method="post">
+                {% csrf_token %}
+                <input type="submit" value="do today" />
+                </form>
+            </div>
+            {% endif %}
 
-        {% if not current_goal.is_done_today %}
-        <div class="do_button">
-            <form action="/goal/{{current_goal.id}}/" method="post">
-            {% csrf_token %}
-            <input type="submit" value="do today" />
-            </form>
-        </div>
-        {% endif %}
+            <div class="longest_streak">
+                <p>Longest streak so far: {{longest_streak}}</p>
+            </div>
 
-        <div class="goal_settings">
-             <form action="/update_goal/{{current_goal.id}}/" method="post">
-                 {% csrf_token %}
-                 <input type="text" name="rename" placeholder ="rename your goal">
-                 <input type="checkbox" name="reminder" value="Reminder" {%if current_goal.allow_reminders%}checked {%endif%}>
-                 <input type="submit" value="Save" />
-             </form>
-        </div>
-
-        <div class="longest_streak">
-            <p>Longest streak so far: {{longest_streak}}</p>
         </div>
 
     </div>
-
 
 </div>
 

@@ -52,6 +52,16 @@ def goal(request, goal_id):
         return HttpResponse('You dont have this goal')
 
 @login_required
+def goal_settings(request, goal_id):
+    current_user = request.user
+    current_goal = get_object_or_404(Goal, pk=goal_id)
+    if current_goal in Goal.objects.filter(user=current_user):
+        context = {'current_goal':current_goal}
+        return render(request, 'goals/goal_settings.html', context)
+    else:
+        return HttpResponse('You dont have this goal')
+
+@login_required
 def new_goal(request):
     current_user = request.user
 
@@ -108,21 +118,14 @@ def contact_view(request):
     return render(request, 'goals/contact.html')
 
 @login_required
-def update_goal_ajax(request, goal_id):
-    current_goal = request.user.goal_set.get(id=goal_id)
-    current_goal.description = request.POST['description']
-    current_goal.save()
-    return HttpResponse(current_goal.description)
-
-
-@login_required
 def update_goal(request, goal_id):
     current_goal = request.user.goal_set.get(id=goal_id)
     current_goal.allow_reminders = 'reminder' in request.POST
     if request.POST['rename'] != '':
         current_goal.name = request.POST['rename']
+    current_goal.description = request.POST['description']
     current_goal.save()
-    return HttpResponseRedirect("/")
+    return HttpResponseRedirect("/goal/"+str(current_goal.id))
 
 @login_required
 def mail_view(request):
@@ -141,4 +144,5 @@ def mail_view(request):
             msg.send()
             print 'sending mail to '+ user.email
     return HttpResponse('OK')
+
 
