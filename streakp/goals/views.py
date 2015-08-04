@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
@@ -8,19 +7,12 @@ from .models import Goal, Day
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from . import streak
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import get_object_or_404
 
 
 
 def same_date(date1):
     return date1 == datetime.today().date()
-
-def incompleted_goals_with_reminder(user):
-    user_goals = user.goal_set.filter(allow_reminders = True)
-    return [goal for goal in user_goals if not goal.is_done_today()]
 
 @login_required
 def index(request):
@@ -126,23 +118,3 @@ def update_goal(request, goal_id):
     current_goal.description = request.POST['description']
     current_goal.save()
     return HttpResponseRedirect("/goal/"+str(current_goal.id))
-
-@login_required
-def mail_view(request):
-    users = User.objects.all()
-    for user in users:
-        goals = incompleted_goals_with_reminder(user)
-        if goals and user.email:
-            rendered = render_to_string('goals/reminder.html', {'goals': goals})
-            msg = EmailMultiAlternatives(
-                subject="StreakP reminder",
-                body=rendered,
-                from_email="streakp@mono.ninja",
-                to=[user.email],
-            )
-            msg.attach_alternative(rendered, "text/html")
-            msg.send()
-            print 'sending mail to '+ user.email
-    return HttpResponse('OK')
-
-

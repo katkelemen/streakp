@@ -28,7 +28,6 @@ urlpatterns = [
     url(r'^about/$', 'goals.views.about_view', name='about'),
     url(r'^contact/$', 'goals.views.contact_view', name='contact'),
     url(r'^update_goal/(?P<goal_id>[0-9]+)/$', 'goals.views.update_goal', name='update_goal'),
-    url(r'^mail/$', 'goals.views.mail_view', name='mail_view'),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^goal_settings/(?P<goal_id>[0-9]+)/$', 'goals.views.goal_settings', name='goal_settings'),
 ]
