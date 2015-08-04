@@ -1,14 +1,59 @@
 {% extends "registration/registration_base.html" %}
 {% load i18n %}
+{% load staticfiles %}
 
 {% block title %}{% trans "Register for an account" %}{% endblock %}
 
+{% block css %}
+        <link rel="stylesheet" type="text/css" href="{% static 'goals/login.css' %}" />
+{% endblock %}
+
+{%block nav%}
+
+{%endblock%}
+
 {% block content %}
-<h1>Streakp registration</h1>
-<form method="post" action="">
+
+<form class="form-signin" method="post" action="">
+    <h2>Streakp registration</h2>
+
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="{% trans 'Submit' %}" />
+
+<fieldset>
+    <div class="control-group">
+    <p class="required">
+        <input id="id_username" maxlength="30" name="username"
+               placeholder="Username"
+               type="text" class="form-control"/>
+    </p>
+    </div>
+
+    <div class="control-group">
+    <p class="required">
+        <input id="id_email" name="email"
+               placeholder="E-mail"
+               type="email" class="form-control"/>
+    </p>
+    </div>
+
+    <div class="control-group">
+    <p class="required">
+        <input id="id_password1" name="password1"
+               placeholder="Password"
+               type="password" class="form-control" />
+    </p>
+    </div>
+
+    <div class="control-group">
+    <p class="required">
+        <input id="id_password2" name="password2"
+               placeholder="Password again"
+               type="password" class="form-control"/>
+    </p>
+    </div>
+
+    <input type="submit" class="btn btn-lg btn-primary btn-block" value="Submit" />
+</fieldset>
 </form>
 {% endblock %}
 
