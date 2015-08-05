@@ -10,37 +10,45 @@
 
     <div class="row">
 
-        <p id="goal-description">{{current_goal.description}}</p>
+        <div class="col-sm-5 col-sm-offset-3 starter-template-goal">
 
-        <div class="starter-template">
+                <h2>{{current_goal}}</h2>
 
-            <a class="btn btn-default cog-glyph" href="/goal_settings/{{current_goal.id}}/" role="button">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-            </a>
+                <div class="glyph-cog">
+                <a class="btn btn-default" href="/goal_settings/{{current_goal.id}}/" role="button">
+                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                </a>
+                </div>
 
-            <h2>{{current_goal}}</h2>
+                <div class="streakdays">
+                {%for day in streakdays%}
+                <p>{{day}}</p>
+                {%endfor%}
+                </div>
 
-            {%for day in streakdays%}
-            <p>{{day}}</p>
-            {%endfor%}
+                <div class="current_streak">
+                    <p>Your current streak: {{lenstreak}}</p>
+                </div>
 
-            <div class="current_streak">
-                <p>Your current streak: {{lenstreak}}</p>
-            </div>
+                {% if not current_goal.is_done_today %}
+                <div class="do-button">
+                    <form action="/goal/{{current_goal.id}}/" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="do today" />
+                    </form>
+                </div>
+                {% endif %}
 
-            {% if not current_goal.is_done_today %}
-            <div class="do_button">
-                <form action="/goal/{{current_goal.id}}/" method="post">
-                {% csrf_token %}
-                <input type="submit" value="do today" />
-                </form>
-            </div>
-            {% endif %}
+                <div class="longest_streak">
+                    <p>Longest streak so far: {{longest_streak}}</p>
+                </div>
 
-            <div class="longest_streak">
-                <p>Longest streak so far: {{longest_streak}}</p>
-            </div>
+        </div>
 
+
+        <div class="col-sm-2 col-sm-offset-1 sidebar-module description">
+            <h4>Goal description</h4>
+            <p id="goal-description">{{current_goal.description}}</p>
         </div>
 
     </div>

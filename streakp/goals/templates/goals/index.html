@@ -5,6 +5,7 @@
 {% block content %}
 
 <div class="container">
+
     <div class="row">
 
         <div class="col-sm-9 starter-template">
@@ -18,8 +19,6 @@
 
             {{message}}
 
-
-
             <div class="new_goal_form">
                 <form action="/goal/" method="post">
             {% csrf_token %}
@@ -29,8 +28,8 @@
             </div>
         </div>
 
-        <div class="col-sm-2 col-sm-offset-1">
-            <div class="sidebar-module top_streaks">
+        <div class="col-sm-2 top-streaks">
+            <div class="sidebar-module ">
                 <h4>Top Streaks</h4>
                 {% for g in all_goals %}
                     <p>{{g}} ({{g.lenstreak}})</p>
@@ -40,6 +39,7 @@
         </div>
 
     </div>
+
 </div>
 
 {% endblock %}
