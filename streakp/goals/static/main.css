@@ -60,7 +60,7 @@ div.blocks {
     margin: 3px;
 }
 
-div.new_goal_form {
+.new_goal_form {
     margin: 50px;
 }
 
@@ -98,4 +98,14 @@ div.new_goal_form {
 
 .do-button {
     margin-top:20px;
+}
+
+.btn-round {
+    width: 120px;
+    height: 120px;
+    text-align: center;
+    padding: 50px 0;
+    font-size: 12px;
+    line-height: 1.42;
+    border-radius: 60px;
 }

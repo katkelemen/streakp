@@ -11,19 +11,20 @@
         <div class="col-sm-9 starter-template">
                 {%for g in goals%}
                     {% if g.is_done_today %}
-                        <a class='btn btn-sm btn-success' href="/goal/{{g.id}}">{{g}} ({{g.lenstreak}})</a>
+                        <a class='btn btn-sm btn-success btn-round' href="/goal/{{g.id}}">{{g}} ({{g.lenstreak}})</a>
                     {% else %}
-                        <a class='btn btn-sm btn-default' href="/goal/{{g.id}}">{{g}} ({{g.lenstreak}})</a>
+                        <a class='btn btn-sm btn-default btn-round' href="/goal/{{g.id}}">{{g}} ({{g.lenstreak}})</a>
                     {% endif %}
                 {%endfor%}
 
             {{message}}
 
-            <div class="new_goal_form">
-                <form action="/goal/" method="post">
+            <div class="new_goal_form form-signin">
+                <form class="form-inline" action="/goal/" method="post">
             {% csrf_token %}
-                    <input type="text" name="new_goal">
-                    <input type="submit" value="make goal" />
+                    <label for="exampleInputName2">Create a new goal:</label>
+                    <input type="text" class="form-control" name="new_goal" id="exampleInputName2" placeholder="practice moonlanding">
+                    <button type="submit" class="btn btn-default">make goal</button>
                 </form>
             </div>
         </div>
