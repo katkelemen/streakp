@@ -30,4 +30,5 @@ urlpatterns = [
     url(r'^update_goal/(?P<goal_id>[0-9]+)/$', 'goals.views.update_goal', name='update_goal'),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^goal_settings/(?P<goal_id>[0-9]+)/$', 'goals.views.goal_settings', name='goal_settings'),
+    url(r'^account/$', 'goals.views.account_page_view', name='account_page'),
 ]

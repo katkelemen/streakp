@@ -16,17 +16,15 @@ def same_date(date1):
 
 @login_required
 def index(request):
-    current_user = request.user
-    current_goals = Goal.objects.filter(user=current_user)
+    current_goals = Goal.objects.filter(user=request.user)
     all_goals_sorted = sorted(Goal.objects.all(), key=Goal.lenstreak, reverse=True)
     context = {'goals': current_goals, 'all_goals': all_goals_sorted}
     return render(request, 'goals/index.html', context)
 
 @login_required
 def goal(request, goal_id):
-    current_user = request.user
     current_goal = get_object_or_404(Goal, pk=goal_id)
-    if current_goal in Goal.objects.filter(user=current_user):
+    if current_goal in Goal.objects.filter(user=request.user):
         if request.method=='POST' and not current_goal.is_done_today():
             d = Day(goal=current_goal, date=timezone.now())
             d.save()
@@ -45,9 +43,8 @@ def goal(request, goal_id):
 
 @login_required
 def goal_settings(request, goal_id):
-    current_user = request.user
     current_goal = get_object_or_404(Goal, pk=goal_id)
-    if current_goal in Goal.objects.filter(user=current_user):
+    if current_goal in Goal.objects.filter(user=request.user):
         context = {'current_goal':current_goal}
         return render(request, 'goals/goal_settings.html', context)
     else:
@@ -55,17 +52,15 @@ def goal_settings(request, goal_id):
 
 @login_required
 def new_goal(request):
-    current_user = request.user
-
     if request.method=='POST':
         new_goal = request.POST['new_goal']
-        goal = Goal(user=current_user, name=new_goal, pub_date=timezone.now())
+        goal = Goal(user=request.user, name=new_goal, pub_date=timezone.now())
         try:
             goal.save()
             message = 'Nice job!'
         except IntegrityError, e:
             message = e.message
-        current_goals = Goal.objects.filter(user=current_user)
+        current_goals = Goal.objects.filter(user=request.user)
         context = {'goals': current_goals, 'message': message}
         return render(request, 'goals/index.html', context)
 
@@ -94,7 +89,6 @@ def logout_view(request):
     return HttpResponseRedirect("/login/")
     # Redirect to a success page.
 
-
 @login_required
 def delete_goal(request, goal_id):
     current_goal = request.user.goal_set.get(id=goal_id)
@@ -118,3 +112,10 @@ def update_goal(request, goal_id):
     current_goal.description = request.POST['description']
     current_goal.save()
     return HttpResponseRedirect("/goal/"+str(current_goal.id))
+
+@login_required
+def account_page_view(request):
+    if request.method=='POST':
+        request.user.email = request.POST["new-email"]
+        request.user.save()
+    return render(request, "goals/account_page.html")
