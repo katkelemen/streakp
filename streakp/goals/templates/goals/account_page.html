@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-sm-5 col-sm-offset-3 goal_settings">
+
+
+
+            <form action="/account/" method="post">
+            {% csrf_token %}
+
+                <h2>{{user}}</h2>
+                <div class="form-group rename_user">
+                     <label>change {{user.email}}</label>
+                     <input type="email" class="form-control" name="new-email" placeholder="new email address">
+                </div>
+
+                <button class="btn btn-default" type="submit">Save</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+
+
