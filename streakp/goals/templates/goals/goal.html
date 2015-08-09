@@ -33,7 +33,16 @@
                 <div class="do-button">
                     <form action="/goal/{{current_goal.id}}/" method="post">
                     {% csrf_token %}
-                    <input type="submit" value="do today" />
+                    <input class="btn btn-default" type="submit" value="do today" />
+                    </form>
+                </div>
+                {% endif %}
+
+                {% if not current_goal.is_done_yesterday %}
+                <div class="do-button">
+                    <form action="/goal/{{current_goal.id}}/yesterday/" method="post">
+                    {% csrf_token %}
+                    <input class="btn btn-default" type="submit" value="did yesterday" />
                     </form>
                 </div>
                 {% endif %}

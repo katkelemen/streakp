@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
+from datetime import timedelta
 from . import streak
 
 
@@ -15,6 +16,7 @@ class Goal(models.Model):
     class Meta:
         unique_together = ('user', 'name')
 
+
     def __str__(self):
         return self.name
 
@@ -22,9 +24,21 @@ class Goal(models.Model):
         days = self.day_set.all()
         if not days: return False
         else:
-            last_entry = days.latest('id').date
-            last_entry_date = last_entry.date()
-            return last_entry_date == timezone.now().date()
+            today = timezone.now().date()
+            filtered_days = self.day_set.filter(date__year=today.year, date__month=today.month, date__day=today.day)
+            return filtered_days.count() > 0
+
+    def is_done_yesterday(self):
+        days = self.day_set.all()
+        if not days: return False
+        else:
+            yesterday = timezone.now().date() - timedelta(days=1)
+            filtered_days = self.day_set.filter(
+                date__year=yesterday.year,
+                date__month=yesterday.month,
+                date__day=yesterday.day
+            )
+            return filtered_days.count() > 0
 
     def lenstreak(self):
         days = self.day_set.all()
@@ -37,3 +51,6 @@ class Day(models.Model):
 
     def __str__(self):
         return str(self.date)
+
+    class Meta:
+        ordering = ['date']

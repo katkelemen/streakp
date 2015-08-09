@@ -2,7 +2,7 @@ from django.db import IntegrityError
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import timezone
-from datetime import datetime
+from datetime import datetime, timedelta
 from .models import Goal, Day
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -40,6 +40,15 @@ def goal(request, goal_id):
         return render(request, 'goals/goal.html', context)
     else:
         return HttpResponse('You dont have this goal')
+
+@login_required
+def done_yesterday(request, goal_id):
+    current_goal = get_object_or_404(Goal, pk=goal_id)
+    if current_goal in Goal.objects.filter(user=request.user):
+        if request.method=='POST' and not current_goal.is_done_yesterday():
+            d = Day(goal=current_goal, date=timezone.now()-timedelta(days=1))
+            d.save()
+    return HttpResponseRedirect("/goal/"+str(current_goal.id))
 
 @login_required
 def goal_settings(request, goal_id):
