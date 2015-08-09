@@ -1,8 +1,7 @@
-
-
 {% extends 'base.html' %}
 
 {% load staticfiles %}
+
 
 {% block content %}
 
@@ -49,10 +48,30 @@
         <div class="col-sm-2 col-sm-offset-1 sidebar-module description">
             <h4>Goal description</h4>
             <p id="goal-description">{{current_goal.description}}</p>
+            <h4>Notes</h4>
+            <div class="form-group notes">
+                    <label class="sr-only">Notes</label>
+                    <div class="current-notes visib">
+                        {{current_goal.notes}}
+                    </div>
+                    <div class="change-notes">
+                        <textarea class="form-control visib"
+                                  id="new-description"
+                                  name="notes"
+                                  placeholder="Take note!">{{current_goal.notes}}</textarea>
+                    </div>
+            </div>
+
         </div>
 
     </div>
 
 </div>
 
+
+{% endblock %}
+
+
+{% block js %}
+    <script src="{% static 'textarea.js' %}"></script>
 {% endblock %}

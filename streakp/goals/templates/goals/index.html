@@ -11,9 +11,15 @@
         <div class="col-sm-9 starter-template">
                 {%for g in goals%}
                     {% if g.is_done_today %}
-                        <a class='btn btn-sm btn-success btn-round' href="/goal/{{g.id}}">{{g}} ({{g.lenstreak}})</a>
+                        <a class='btn btn-sm btn-success btn-round' href="/goal/{{g.id}}">
+                            <p>{{g}}</p>
+                            <p class="lenstreak">({{g.lenstreak}})</p>
+                        </a>
                     {% else %}
-                        <a class='btn btn-sm btn-default btn-round' href="/goal/{{g.id}}">{{g}} ({{g.lenstreak}})</a>
+                        <a class='btn btn-sm btn-default btn-round' href="/goal/{{g.id}}">
+                            <p>{{g}}</p>
+                            <p class="lenstreak">({{g.lenstreak}})</p>
+                        </a>
                     {% endif %}
                 {%endfor%}
 

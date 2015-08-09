@@ -119,3 +119,10 @@ def account_page_view(request):
         request.user.email = request.POST["new-email"]
         request.user.save()
     return render(request, "goals/account_page.html")
+
+@login_required
+def update_notes(request, goal_id):
+    current_goal = request.user.goal_set.get(id=goal_id)
+    current_goal.notes = request.POST['notes']
+    current_goal.save()
+    return HttpResponse(current_goal.notes)

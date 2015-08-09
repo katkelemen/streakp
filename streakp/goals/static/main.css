@@ -108,4 +108,13 @@ div.blocks {
     font-size: 12px;
     line-height: 1.42;
     border-radius: 60px;
+    overflow:hidden;
+}
+
+p.lenstreak {
+    display:block;
+}
+
+#goal-description {
+    margin-bottom:20px;
 }

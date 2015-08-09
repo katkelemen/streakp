@@ -10,6 +10,7 @@ class Goal(models.Model):
     pub_date = models.DateTimeField('date published')
     allow_reminders = models.BooleanField(default=False)
     description = models.TextField(null=True)
+    notes = models.TextField(null=True)
 
     class Meta:
         unique_together = ('user', 'name')
