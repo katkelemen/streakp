@@ -3,12 +3,12 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import timezone
 from datetime import datetime, timedelta
-from .models import Goal, Day
+from .models import Goal, Day, Credit
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from . import streak
 from django.shortcuts import get_object_or_404
-
+from . import random_suggestions
 
 
 def same_date(date1):
@@ -17,8 +17,14 @@ def same_date(date1):
 @login_required
 def index(request):
     current_goals = Goal.objects.filter(user=request.user)
+    user_credit = Credit.objects.get(user=request.user)
     all_goals_sorted = sorted(Goal.objects.all(), key=Goal.lenstreak, reverse=True)
-    context = {'goals': current_goals, 'all_goals': all_goals_sorted}
+    suggestion = random_suggestions.random_suggestions()
+    context = {'goals': current_goals,
+               'all_goals': all_goals_sorted,
+               'suggestion': suggestion,
+               'credit': user_credit,
+               }
     return render(request, 'goals/index.html', context)
 
 @login_required
@@ -36,7 +42,13 @@ def goal(request, goal_id):
         streakdays = list(current_goal.day_set.all())[-lenstreak:]
         ls = range(lenstreak)
         longest_streak = streak.longest_streak(dates)
-        context = {'dates': dates, 'longest_streak':longest_streak, 'streakdays':streakdays, 'days':days, 'current_goal':current_goal, 'lenstreak':lenstreak, 'ls':ls, 'allowed':allowed, 'current_user':current_user}
+        context = {'dates': dates,
+                   'longest_streak':longest_streak,
+                   'streakdays':streakdays, 'days':days,
+                   'current_goal':current_goal,
+                   'lenstreak':lenstreak, 'ls':ls,
+                   'allowed':allowed,
+                   'current_user':current_user}
         return render(request, 'goals/goal.html', context)
     else:
         return HttpResponse('You dont have this goal')
@@ -44,10 +56,13 @@ def goal(request, goal_id):
 @login_required
 def done_yesterday(request, goal_id):
     current_goal = get_object_or_404(Goal, pk=goal_id)
+    user_credit = Credit.objects.get(user=request.user)
     if current_goal in Goal.objects.filter(user=request.user):
         if request.method=='POST' and not current_goal.is_done_yesterday():
             d = Day(goal=current_goal, date=timezone.now()-timedelta(days=1))
             d.save()
+            user_credit.credit -= 1
+            user_credit.save()
     return HttpResponseRedirect("/goal/"+str(current_goal.id))
 
 @login_required
@@ -135,3 +150,7 @@ def update_notes(request, goal_id):
     current_goal.notes = request.POST['notes']
     current_goal.save()
     return HttpResponse(current_goal.notes)
+
+@login_required
+def credit_info(request):
+    return render(request, "goals/credit_info.html")

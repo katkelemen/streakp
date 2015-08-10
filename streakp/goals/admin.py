@@ -1,11 +1,11 @@
 from django.contrib import admin
 from models import Day
 from models import Goal
+from models import Credit
 
 class DayInline(admin.TabularInline):
     model = Day
     extra = 3
-
 
 class GoalAdmin(admin.ModelAdmin):
     inlines = [DayInline]
@@ -13,4 +13,5 @@ class GoalAdmin(admin.ModelAdmin):
     list_display = ('name', 'pub_date', 'user')
 
 admin.site.register(Goal, GoalAdmin)
+admin.site.register(Credit)
 

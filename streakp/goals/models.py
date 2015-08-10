@@ -45,6 +45,10 @@ class Goal(models.Model):
         dates = [d.date for d in days]
         return streak.cons_dates(dates)
 
+    def user_has_credit(self):
+        credit = Credit.objects.get(user=self.user).credit
+        return credit > 0
+
 class Day(models.Model):
     goal = models.ForeignKey(Goal)
     date = models.DateTimeField('date done')
@@ -54,3 +58,10 @@ class Day(models.Model):
 
     class Meta:
         ordering = ['date']
+
+class Credit(models.Model):
+    user = models.ForeignKey(User)
+    credit = models.IntegerField(default=1)
+
+    def __unicode__(self):
+        return '%d' % (self.credit)

@@ -38,7 +38,7 @@
                 </div>
                 {% endif %}
 
-                {% if not current_goal.is_done_yesterday %}
+                {% if not current_goal.is_done_yesterday and current_goal.user_has_credit %}
                 <div class="do-button">
                     <form action="/goal/{{current_goal.id}}/yesterday/" method="post">
                     {% csrf_token %}

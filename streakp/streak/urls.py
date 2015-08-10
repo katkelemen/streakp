@@ -33,4 +33,5 @@ urlpatterns = [
     url(r'^goal_settings/(?P<goal_id>[0-9]+)/$', 'goals.views.goal_settings', name='goal_settings'),
     url(r'^account/$', 'goals.views.account_page_view', name='account_page'),
     url(r'^goal/(?P<goal_id>[0-9]+)/update_notes/$', 'goals.views.update_notes', name='update_notes'),
+    url(r'^credit_info/$', 'goals.views.credit_info', name='credit_info'),
 ]
