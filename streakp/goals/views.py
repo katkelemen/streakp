@@ -3,13 +3,16 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import timezone
 from datetime import datetime, timedelta
-from .models import Goal, Day, Credit
+from .models import Goal, Day, Credit, Achievement
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from . import streak
 from django.shortcuts import get_object_or_404
 from . import random_suggestions
 
+def has_achievement(user, reason):
+    achievment = Achievement.objects.filter(user=user, reason=reason)
+    return achievment.count() > 0
 
 def same_date(date1):
     return date1 == datetime.today().date()
@@ -30,6 +33,7 @@ def index(request):
 @login_required
 def goal(request, goal_id):
     current_goal = get_object_or_404(Goal, pk=goal_id)
+    user_credit = Credit.objects.get(user=request.user)
     if current_goal in Goal.objects.filter(user=request.user):
         if request.method=='POST' and not current_goal.is_done_today():
             d = Day(goal=current_goal, date=timezone.now())
@@ -42,13 +46,19 @@ def goal(request, goal_id):
         streakdays = list(current_goal.day_set.all())[-lenstreak:]
         ls = range(lenstreak)
         longest_streak = streak.longest_streak(dates)
+        if lenstreak == 7 and not has_achievement(request.user, '7 day streak'):
+            user_credit.credit += 1
+            user_credit.save()
+            Achievement(user=request.user, reason='7 day streak').save()
         context = {'dates': dates,
                    'longest_streak':longest_streak,
                    'streakdays':streakdays, 'days':days,
                    'current_goal':current_goal,
                    'lenstreak':lenstreak, 'ls':ls,
                    'allowed':allowed,
-                   'current_user':current_user}
+                   'current_user':current_user,
+                   }
+
         return render(request, 'goals/goal.html', context)
     else:
         return HttpResponse('You dont have this goal')
@@ -64,6 +74,7 @@ def done_yesterday(request, goal_id):
             user_credit.credit -= 1
             user_credit.save()
     return HttpResponseRedirect("/goal/"+str(current_goal.id))
+
 
 @login_required
 def goal_settings(request, goal_id):

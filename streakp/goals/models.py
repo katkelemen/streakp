@@ -16,13 +16,13 @@ class Goal(models.Model):
     class Meta:
         unique_together = ('user', 'name')
 
-
     def __str__(self):
         return self.name
 
     def is_done_today(self):
         days = self.day_set.all()
-        if not days: return False
+        if not days:
+            return False
         else:
             today = timezone.now().date()
             filtered_days = self.day_set.filter(date__year=today.year, date__month=today.month, date__day=today.day)
@@ -30,7 +30,8 @@ class Goal(models.Model):
 
     def is_done_yesterday(self):
         days = self.day_set.all()
-        if not days: return False
+        if not days:
+            return False
         else:
             yesterday = timezone.now().date() - timedelta(days=1)
             filtered_days = self.day_set.filter(
@@ -49,6 +50,7 @@ class Goal(models.Model):
         credit = Credit.objects.get(user=self.user).credit
         return credit > 0
 
+
 class Day(models.Model):
     goal = models.ForeignKey(Goal)
     date = models.DateTimeField('date done')
@@ -59,9 +61,17 @@ class Day(models.Model):
     class Meta:
         ordering = ['date']
 
+
 class Credit(models.Model):
     user = models.ForeignKey(User)
     credit = models.IntegerField(default=1)
 
     def __unicode__(self):
         return '%d' % (self.credit)
+
+class Achievement(models.Model):
+    user = models.ForeignKey(User)
+    reason = models.TextField()
+
+    def __unicode__(self):
+        return '%s' % (self.reason)

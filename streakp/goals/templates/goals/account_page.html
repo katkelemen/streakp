@@ -27,6 +27,14 @@
 
         </div>
 
+        <div class="col-sm-2 col-sm-offset-1 sidebar-module description">
+            <h4>Achievements</h4>
+            {% for ach in user.achievement_set.all%}
+            <p>{{ach}}</p>
+            {% endfor %}
+
+        </div>
+
     </div>
 
 </div>

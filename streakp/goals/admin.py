@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import Day
+from models import Day, Achievement
 from models import Goal
 from models import Credit
 
@@ -14,4 +14,5 @@ class GoalAdmin(admin.ModelAdmin):
 
 admin.site.register(Goal, GoalAdmin)
 admin.site.register(Credit)
+admin.site.register(Achievement)
 
