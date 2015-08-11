@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 from datetime import timedelta
 from . import streak
+from registration.signals import user_registered
 
 
 class Goal(models.Model):
@@ -67,7 +68,7 @@ class Credit(models.Model):
     credit = models.IntegerField(default=1)
 
     def __unicode__(self):
-        return '%d' % (self.credit)
+        return '%s %d' % (self.user.username, self.credit)
 
 class Achievement(models.Model):
     user = models.ForeignKey(User)
@@ -75,3 +76,9 @@ class Achievement(models.Model):
 
     def __unicode__(self):
         return '%s' % (self.reason)
+
+
+def add_credit(sender, user, request, **kwargs):
+    Credit.objects.create(user=user, credit=1)
+
+user_registered.connect(add_credit)
