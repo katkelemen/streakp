@@ -14,11 +14,19 @@
 
 {% block content %}
 
+{{ form.non_field_errors }}
 <form class="form-signin" method="post" action="">
     <h2>Streakp registration</h2>
 
     {% csrf_token %}
 
+    <!--{% for field in form %}
+    <div class="control-group">
+        {{ field.errors }} {{ field.label_tag }}
+    </div>
+    {% endfor %}-->
+
+    <!-- https://docs.djangoproject.com/en/1.8/topics/forms/#rendering-form-error-messages -->
 <fieldset>
     <div class="control-group">
     <p class="required">
@@ -55,6 +63,7 @@
     <input type="submit" class="btn btn-lg btn-primary btn-block" value="Submit" />
 </fieldset>
 </form>
+
 {% endblock %}
 
 
