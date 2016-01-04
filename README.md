@@ -14,4 +14,4 @@ The app helps people remain motivated by:
 
 The idea is based on [Jerry Seinfeld's productivity secret](http://lifehacker.com/281626/jerry-seinfelds-productivity-secret)
 
-![app screenshot]()
+![app screenshot](https://cloud.githubusercontent.com/assets/9272148/12095572/6d379da8-b307-11e5-8c41-6713b27dd306.png)
